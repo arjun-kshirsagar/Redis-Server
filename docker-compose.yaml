@@ -1,27 +1,61 @@
+# version: '3.8'
+
+# services:
+#   app:
+#     build: 
+#       context: .
+#       dockerfile: Dockerfile
+#     # command: python3 -u app/main.py
+#     container_name: key-value-cache
+#     ports:
+#       - "7171:7171"
+#     # restart: unless-stopped
+#     volumes:
+#       - .:/app # Mounting the project directory is neccessary bcoz you dont have to keep building again and again ~ Rohit
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:7171/health"]
+#       interval: 30s
+#       timeout: 10s
+#       retries: 3
+#       start_period: 40s
+#     deploy:
+#       resources:
+#         reservations:
+#           memory: 2G       # Minimum 2GB of memory is guaranteed
+#           cpus: '2.0'      # Minimum 2 CPU core is guaranteed
+#         limits:
+#           memory: 2G       # Maximum 2GB of memory is allowed
+#           cpus: '2.0'      # Maximum 2 CPU cores are allowed
+
+
 version: '3.8'
 
 services:
   app:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
+    # Remove or comment out the command if it conflicts with the CMD in Dockerfile.
+    # If you need to override, ensure it also points to your TCP server:
+    # command: python3 -u app/main.py
     container_name: key-value-cache
     ports:
       - "7171:7171"
-    # restart: unless-stopped
     volumes:
-      - .:/app # Mounting the project directory is neccessary bcoz you dont have to keep building again and again ~ Rohit
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:7171/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      - .:/app  # Mount the project directory so that code changes are available immediately.
+    # You may remove or adjust the healthcheck if your TCP server doesn't implement an HTTP /health endpoint.
+    # For example, you can comment it out:
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:7171/health"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
     deploy:
       resources:
         reservations:
-          memory: 2G       # Minimum 2GB of memory is guaranteed
-          cpus: '2.0'      # Minimum 2 CPU core is guaranteed
+          memory: 2G
+          cpus: '2.0'
         limits:
-          memory: 2G       # Maximum 2GB of memory is allowed
-          cpus: '2.0'      # Maximum 2 CPU cores are allowed
+          memory: 2G
+          cpus: '2.0'

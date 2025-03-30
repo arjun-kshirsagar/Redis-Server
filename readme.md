@@ -134,10 +134,3 @@ curl -X 'GET' 'http://127.0.0.1:7171/health'
 - **404 - Key Not Found**: When trying to retrieve a key that doesn't exist in the cache.
 - **400 - Invalid Key/Value**: If the key or value exceeds the allowed length (256 characters).
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to customize the README according to your project's needs! Let me know if you need further adjustments or additional sections.
