@@ -1,7 +1,3 @@
-Sure! Here's a sample README for your FastAPI-based key-value server:
-
----
-
 # Key-Value Cache Server
 
 This is a simple key-value server built using **FastAPI** and **Cachetools**. It provides a basic caching mechanism that allows you to store and retrieve key-value pairs with an optional in-memory cache backed by an LRU (Least Recently Used) cache.
@@ -33,7 +29,7 @@ cd redis-server
 
 2. Pull the docker image & run the container
 ```bash
-docker pull arjunkshirsagar/key-value-server
+docker pull arjunkshirsagar/key-value-server:v0
 ```
 
 ## Running the Server
@@ -41,7 +37,7 @@ docker pull arjunkshirsagar/key-value-server
 To run the server, execute the following command:
 
 ```bash
-docker compose up
+docker run -p 7171:7171 arjunkshirsagar/key-value-server:v0
 ```
 
 This will start the server at `http://127.0.0.1:7171`.
@@ -133,11 +129,3 @@ curl -X 'GET' 'http://127.0.0.1:7171/health'
 
 - **404 - Key Not Found**: When trying to retrieve a key that doesn't exist in the cache.
 - **400 - Invalid Key/Value**: If the key or value exceeds the allowed length (256 characters).
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-Feel free to customize the README according to your project's needs! Let me know if you need further adjustments or additional sections.
