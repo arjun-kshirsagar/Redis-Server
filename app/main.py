@@ -16,12 +16,19 @@ class CacheService:
             raise ValueError("Key or value exceeds 256 characters")
         
         self._cache[key] = value
-        return {"status": "success"}
+        return {"status": "OK",
+            "key": key,
+            "value": value
+            }
     
     async def get(self, key: str):
         try:
             if key not in self._cache:
-                return "Key not found"
+                response = {
+                    "status": "ERROR",
+                    "message": "Key not found."
+                }
+                return response
                 # raise HTTPException(status_code=404, detail="Key not found")
             return {"value": self._cache[key]}
         except Exception as e:
@@ -38,7 +45,7 @@ class CacheEntry(BaseModel):
 async def put_key(entry: CacheEntry):
     return await cache_service.put(entry.key, entry.value)
 
-@app.get("/get/{key}")
+@app.get("/get")
 async def get_key(key: str):
     return await cache_service.get(key)
 
