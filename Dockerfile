@@ -28,7 +28,7 @@ FROM python:3.11-slim
 ENV PYTHONUNBUFFERED=1
 
 # Copy environment variables if needed
-COPY .env .
+# COPY .env .
 
 # Set working directory
 WORKDIR /app

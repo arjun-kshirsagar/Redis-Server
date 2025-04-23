@@ -38,6 +38,19 @@ docker pull arjunkshirsagar/key-value-server
 
 ## Running the Server
 
+### Method 1
+1. Pull the docker image
+```bash
+docker pull arjunkshirsagar/key-value-server 
+```
+
+2. Run the container
+```bash
+docker run -p 7171:7171 arjunkshirsagar/key-value-server
+```
+
+### Method 2
+
 To run the server, execute the following command:
 
 ```bash
