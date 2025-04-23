@@ -1,149 +1,70 @@
-Sure! Here's a sample README for your FastAPI-based key-value server:
+# High-Throughput TCP Key-Value Cache Server
+
+This project implements a **high-throughput, low-latency key-value cache server** using a custom **TCP protocol**. It's optimized for high-concurrency environments, making it ideal for use cases that demand speed, simplicity, and scale.
+
+> **Note**: If you're looking for a traditional **HTTP-based key-value server**, check out the [`http-server`](https://github.com/arjun-kshirsagar/redis-server/tree/http-server) branch of this repository.
 
 ---
 
-# Key-Value Cache Server
+## 🚀 Features
 
-This is a simple key-value server built using **FastAPI** and **Cachetools**. It provides a basic caching mechanism that allows you to store and retrieve key-value pairs with an optional in-memory cache backed by an LRU (Least Recently Used) cache.
+- ⚡ **High-Throughput TCP Server**: Designed to efficiently handle thousands of concurrent TCP connections.
+- 📦 **Key-Value Caching**: Supports `PUT` and `GET` operations with LRU eviction via `Cachetools`.
+- 🧰 **Python SDK Included**: Quickly build or test clients using the provided SDK (`sdk/` directory).
+- 🐳 **Docker Support**: Easily deploy with Docker or Docker Compose.
 
-## Features
+---
 
-- **Put Key-Value Pair**: Store key-value pairs.
-- **Get Value by Key**: Retrieve values by providing the corresponding key.
-- **Health Check**: Check if the server is running and healthy.
-- **Custom Cache Size**: Cache size is configurable via an environment variable (`MAX_CACHE_SIZE`).
+## 🧱 Prerequisites
 
-## Prerequisites
+- Python 3.7+ (for SDK or development)
+- Docker (recommended for running the server)
 
-Ensure you have Python 3.7 or higher installed. The following Python packages are required:
+---
 
-- FastAPI
-- pydantic
-- cachetools
-- uvicorn
+## 📦 Installation
 
-## Installation
-
-1. Clone this repository to your local machine:
+1. **Clone the repository**:
 
 ```bash
 git clone https://github.com/arjun-kshirsagar/redis-server.git
 cd redis-server
 ```
 
-2. Pull the docker image & run the container
+2. **Run using Docker**:
+
 ```bash
 docker pull arjunkshirsagar/key-value-server
-```
-
-## Running the Server
-
-### Method 1
-1. Pull the docker image
-```bash
-docker pull arjunkshirsagar/key-value-server 
-```
-
-2. Run the container
-```bash
 docker run -p 7171:7171 arjunkshirsagar/key-value-server
 ```
 
-### Method 2
-
-To run the server, execute the following command:
+Or use Docker Compose:
 
 ```bash
 docker compose up
 ```
 
-This will start the server at `http://127.0.0.1:7171`.
+> The TCP server will be available on `127.0.0.1:7171`.
 
-If you want to set a custom cache size, you can use the `MAX_CACHE_SIZE` environment variable (in bytes):
 
-```bash
-export MAX_CACHE_SIZE=10485760  # Example: 10MB
-```
+---
 
-By default, the cache size is set to `70%` of 2GB (`0.7 * 2 * 1024 * 1024 * 1024`).
+## 🧪 Testing with SDK
 
-## API Endpoints
+We provide a Python SDK in the [`sdk/`](./sdk) directory to simplify testing and integration.
 
-### 1. **PUT `/put`**
-Store a key-value pair in the cache.
+📄 **Refer to [`sdk.md`](./sdk/sdk.md)** for detailed usage instructions.
 
-#### Request Body:
-```json
-{
-  "key": "your_key",
-  "value": "your_value"
-}
-```
+---
 
-#### Response:
-```json
-{
-  "status": "OK",
-  "key": "your_key",
-  "value": "your_value"
-}
-```
+## 🗂 Branches
 
-#### Example cURL request:
-```bash
-curl -X 'POST' \
-  'http://127.0.0.1:7171/put' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "key": "name",
-  "value": "John"
-}'
-```
+- **`main`**: ⚡ High-performance **TCP-based** key-value server (this branch).
+- **[`http-server`](https://github.com/arjun-kshirsagar/redis-server/tree/http-server)**: 🌐 Traditional **HTTP-based** server built using FastAPI with REST endpoints.
 
-### 2. **GET `/get`**
-Retrieve the value for a given key.
+---
 
-#### Request Parameters:
-- `key`: The key whose value you want to retrieve.
+## 📌 Notes
 
-#### Response:
-```json
-{
-  "value": "your_value"
-}
-```
-
-If the key doesn't exist, the response will be:
-
-```json
-{
-  "status": "ERROR",
-  "message": "Key not found."
-}
-```
-
-#### Example cURL request:
-```bash
-curl -X 'GET' 'http://127.0.0.1:7171/get?key=name'
-```
-
-### 3. **GET `/health`**
-Check the health status of the server.
-
-#### Response:
-```json
-{
-  "status": "healthy"
-}
-```
-
-#### Example cURL request:
-```bash
-curl -X 'GET' 'http://127.0.0.1:7171/health'
-```
-
-## Error Handling
-
-- **404 - Key Not Found**: When trying to retrieve a key that doesn't exist in the cache.
-- **400 - Invalid Key/Value**: If the key or value exceeds the allowed length (256 characters).
-
+- Designed for **internal infrastructure**, **microservices**, or any system requiring fast cache lookups.
+- Consider using **HTTP version** if you need REST APIs or client-friendly integrations.
